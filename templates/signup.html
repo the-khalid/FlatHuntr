@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+{% block container %}
+
+<form method="POST">
+  <br>
+    <h3 align="center">Sign Up!</h3>
+  <br>
+
+  <div class="form-floating mb-3">
+    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+    <label for="email">Email address</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="username" name="username" placeholder="username">
+    <label for="username">Username</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="phnnumber" name="phnnumber" placeholder="phone number">
+    <label for="phnnumber">Phone Number (no spam, promise!)</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="password" class="form-control" id="password1" name="password1" placeholder="password1">
+    <label for="password1">Password</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="password" class="form-control" id="password2" name="password2" placeholder="password2">
+    <label for="password2">Enter password again</label>
+  </div>
+
+  <br>
+  <div align="center">
+    <button class="btn btn-dark" type="submit">Sign Up</button>
+  </div>
+</form>
+
+{% endblock %}
