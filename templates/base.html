@@ -1,6 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href='https://fonts.googleapis.com/css?family=Bungee Shade' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  <script>
+    function mapClicked(){
+      document.getElementById("btn").disabled = true;
+      document.getElementById("load").innerHTML = " Loading to-let map.. "
+      showLocation()
+    }
+    function addClicked(){
+      document.getElementById("btn2").disabled = true;
+      document.getElementById("load2").innerHTML = " Adding current location.. "
+      getLocation()
+    }
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else { 
+        alert("Geolocation is not supported by this browser :(");
+      }
+    }
+    function showPosition(position) {
+      window.location="/add-current-location/"+position.coords.latitude+"/"+position.coords.longitude;
+    }
+    function showLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPositionMap, showError);
+      } else { 
+        alert("Geolocation is not supported by this browser :(");
+      }
+    }
+    function showPositionMap(position) {
+      window.location="/map/"+position.coords.latitude+"/"+position.coords.longitude;
+    }
+    function showError(error) {
+      switch(error.code) {
+        case error.PERMISSION_DENIED:
+          alert("Please allow access to location to proceed")
+          window.location="/home";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.")
+          window.location="/home";
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.")
+          window.location="/home";
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.")
+          window.location="/home";
+          break;
+      }
+    }
+  </script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,35 +66,52 @@
       crossorigin="anonymous"
     />
     <style>
+      body{
+    margin-bottom: 200px;
+}
         #tab1{
           display: inline-block;
           margin-left: 4px;
         }
-      #semifooter {
-          position: fixed;
+      
+      #about {
+
           padding: 10px 10px 10px 10px;
-          bottom: 40px;
+          bottom: 75px;
           left: 0;
           width: 100%;
-          height: 35px;
+
           line-height: 15px;
       }
-      #footer {
+      #semifooter {
+        background-color: black;
+        color: white;
         position: fixed;
-          padding: 10px 10px 10px 10px;
-          bottom: 0px;
-          left: 0;
-          width: 100%;
-          height: 40px;
-          line-height: 15px;
+        left: 0;
+        padding-top: 5px;
+        right: 0;
+        bottom:35px;
+        width: 100%;
+        text-align: center;
+      }
+      #footer {
+        background-color: black;
+    color: white;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom:0px;
+    padding-top: 5px;
+    width: 100%;
+    text-align: center;
       }
   </style>
     <title> {% block title %}{% endblock %} </title>
 </head>
-<body>
+<body >
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-        <a class="navbar-brand" href="/home">Flat Huntr</a>
+        <a class="navbar-brand" href="/home" style="font-family: 'Helvetica', 'Courier New';">Flat Huntr</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -62,33 +134,45 @@
           </div>
         </div>
       </nav>
-
+<div  style="padding: 2px;">
 {% with messages = get_flashed_messages(with_categories=True) %}
   {% if messages %}
     {% for category, message in messages %}
     {% if category == 'error' %}
-    <div class="alert alert-danger alter-dismissable fade show" role="alert">
-      {{ message }}
-      <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-          ></button>
-    </div>
+    
+      <div class="alert alert-danger alter-dismissable fade show" style="position:fixed; left: 50%; transform: translate(-50%, 0);" role="alert">
+        <span>{{ message }}</span>
+        <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+      </div>
     {% else %}
-    <div class="alert alert-success alter-dismissable fade show" role="alert">
-      {{ message }}
+      {% if category=='success' %}
+      <div class="alert alert-success alter-dismissable fade show" style="position:fixed; left: 50%; transform: translate(-50%, 0);" role="alert">
+        <span>{{ message }}</span>
+        <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+      </div>
+      {% else %}
+      <div class="alert alert-warning alter-dismissable fade show" style="position:fixed; left: 50%; transform: translate(-50%, 0);" role="alert">
+      <span>{{ message }}</span>
       <button
             type="button"
             class="btn-close"
             data-bs-dismiss="alert"
           ></button>
-    </div>
+      </div>
+      {% endif %}
     {% endif %}
     {% endfor %}
   {% endif %}
 {% endwith %}
-
+</div>
 <div class="container">
     {% block container %}{% endblock %}
 </div>
@@ -97,39 +181,6 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-
-<script>
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else { 
-          console.log("Geolocation is not supported by this browser.");
-        }
-      }
-      function showPosition(position) {
-        window.location="/add-current-location/"+position.coords.latitude+"/"+position.coords.longitude;
-        localStorage.setItem("lat", position.coords.latitude);
-        localStorage.setItem("lng", position.coords.longitude);
-        console.log(position.coords.latitude)
-        console.log(position.coords.longitude)
-        return position;
-      }
-      function showLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPositionMap);
-        } else { 
-          console.log("Geolocation is not supported by this browser.");
-        }
-      }
-      function showPositionMap(position) {
-        window.location="/map/"+position.coords.latitude+"/"+position.coords.longitude;
-        localStorage.setItem("lat", position.coords.latitude);
-        localStorage.setItem("lng", position.coords.longitude);
-        console.log(position.coords.latitude)
-        console.log(position.coords.longitude)
-        return position;
-      }
-</script>
 
 </body>
 </html>

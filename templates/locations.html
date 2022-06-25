@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block container %}
-    <h1 class="title" align="center">{% block title %} {{user.username}}'s locations {% endblock %}</h1><br>
+    <h1 class="title" align="center" style="font-family:'Helvetica', 'Courier New'; padding-top: 10px;">{% block title %} {{user.username}}'s locations {% endblock %}</h1><br>
     {% if not locs %}
     <h2 align="center">no locations at the moment :(</h2><br>
     {% else %}
