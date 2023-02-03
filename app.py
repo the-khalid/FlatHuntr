@@ -1,8 +1,8 @@
-from pickle import TRUE
-from flask_googlemaps import GoogleMaps, Map
+from flask_googlemaps import GoogleMaps
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+import os
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -19,13 +19,6 @@ class User(db.Model, UserMixin):
     date_created = db.Column(db.DateTime(timezone=True), default = func.now())
     locations = db.relationship('Location', backref='user', passive_deletes = True)
 
-    # def __init__(self, id, email, username, password, number):
-    #     self.id = id
-    #     self.email = email
-    #     self.username = username
-    #     self.password = password
-    #     self.number = number
-
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     latitude = db.Column(db.Float, nullable=False)
@@ -41,8 +34,8 @@ app = Flask(__name__)
 app.config['GOOGLEMAPS_KEY'] = "AIzaSyA_RuK73hUDDWAxIOQt7IhvPbwkTmZ2wrU"
 GoogleMaps(app)
 app.config['SECRET_KEY']="helloworld"
-#app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ckdjqmouhwgodo:4eaba8adfd322cb7f409611c08c0dd1ef2083b1656c69890c62771a33742746a@ec2-34-231-221-151.compute-1.amazonaws.com:5432/d21t5figogk86n'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
+# postgres://flathuntr_database_user:fI3zXz0WwMVAuHWgk4MEeJnS29dw2eom@dpg-cfe8mqkgqg46rpmstu50-a.oregon-postgres.render.com/flathuntr_database
 app.debug=False
 db.init_app(app)
 
