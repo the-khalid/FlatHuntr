@@ -45,7 +45,6 @@ PyYAML==6.0
 pyyaml_env_tag==0.1
 ratelim==0.1.6
 requests==2.27.1
-scipy==1.8.1
 six==1.16.0
 SQLAlchemy==1.4.36
 tabulate==0.8.9
