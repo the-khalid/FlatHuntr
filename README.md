@@ -9,6 +9,6 @@ This Website is developed using html, inline css for front-end, some pinch of ja
 For Map, I used Google Maps API.
 
 
-Deployed to heroku, here's the link - [FlatHuntr](https://flathuntr.herokuapp.com/)
+Deployed to render, here's the link - [FlatHuntr](https://flathuntr.onrender.com/)
 
 I'd love for you to share your thoughts about this website at any of my contacts.
