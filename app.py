@@ -35,7 +35,7 @@ app.config['GOOGLEMAPS_KEY'] = "AIzaSyA_RuK73hUDDWAxIOQt7IhvPbwkTmZ2wrU"
 GoogleMaps(app)
 app.config['SECRET_KEY']="helloworld"
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
-# postgres://flathuntr_database_user:fI3zXz0WwMVAuHWgk4MEeJnS29dw2eom@dpg-cfe8mqkgqg46rpmstu50-a.oregon-postgres.render.com/flathuntr_database
+# postgresql://flathuntr_postgres_user:e1O5jVIqbL7y2MLrQDCqXVR4OmckNRTj@dpg-ctt2rl0gph6c738fel3g-a.oregon-postgres.render.com/flathuntr_postgres
 app.debug=False
 db.init_app(app)
 
